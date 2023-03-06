@@ -28,9 +28,12 @@ add_library(Core
         ${INCLUDE}
         )
 
+include_directories(
+        include
+        )
+
 target_include_directories(Core PUBLIC
         include
-        src
         )
 
 target_link_libraries(Core PUBLIC glfw glm)

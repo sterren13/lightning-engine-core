@@ -5,6 +5,7 @@
 #ifndef CORE_LOGER_H
 #define CORE_LOGER_H
 #include <iostream>
+#include <cassert>
 #include "Platform/Linux/Linux_Log.h"
 #include "Platform/OSX/OSX_Log.h"
 #include "Platform/windows/Window_Log.h"
