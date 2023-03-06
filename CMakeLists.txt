@@ -26,7 +26,7 @@ file(GLOB_RECURSE INCLUDE
 add_library(Core
         ${SRC}
         ${INCLUDE}
-        src/Core/ECS/Component_Pool.hpp src/Core/ECS/View.hpp src/Core/ECS/FastView.hpp)
+        )
 
 target_include_directories(Core PUBLIC
         include

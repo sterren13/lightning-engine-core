@@ -3,7 +3,7 @@
 //
 
 #include <cassert>
-#include "registry.h"
+#include "Core/ECS/registry.h"
 
 namespace lightning {
     namespace ECS {

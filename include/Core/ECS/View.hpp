@@ -16,8 +16,14 @@ namespace lightning {
          * TODO add support for not coomponents of entities
          *  eg. view of all entities with position and velocity but not mass
          */
+
         template<typename ... Ts>
         class View{
+        public:
+            struct Component_Job_Base{
+                virtual void Update(Entity_t, Ts& ...) = 0;
+            };
+
         public:
             View(std::vector<Entity_t> Entity_list, Component_Pool<Ts>&... pools) : Entitys(std::move(Entity_list)), types(pools...){}
 
@@ -52,11 +58,21 @@ namespace lightning {
                 return Entitys.end();
             }
 
+            // run lambda on each entity
             template<typename Func>
             void ForEach(Func& func){
                 auto it = Entitys.begin();
                 while (it != Entitys.end()){
                     func(*it, Get<Ts>(*it)...);
+                    it++;
+                }
+            }
+
+            // run job on each entity
+            void ForEach(Component_Job_Base& job){
+                auto it = Entitys.begin();
+                while (it != Entitys.end()){
+                    job.Update(*it, Get<Ts>(*it)...);
                     it++;
                 }
             }

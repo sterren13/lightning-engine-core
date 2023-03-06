@@ -4,7 +4,7 @@
 
 #ifndef CORE_COMPONENT_POOL_HPP
 #define CORE_COMPONENT_POOL_HPP
-#include "Entity_map.hpp"
+#include "Core/ECS/Entity_map.hpp"
 #include "Core/Types.h"
 
 namespace lightning::ECS {

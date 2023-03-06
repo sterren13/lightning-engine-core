@@ -9,6 +9,7 @@
 #include <stdexcept>
 
 #include "Core\Types.h"
+#include "Core\Log\Loger.h"
 
 namespace lightning {
     namespace ECS {
@@ -31,8 +32,10 @@ namespace lightning {
             // add entity to map with data
             void add(Entity_t entity, T data) {
                 Entity_ID_t id = GET_ENTITY_ID(entity);
-                if (in_map.test(id))
-                    throw std::runtime_error("Entity already in map"); // TODO: change to logger
+                if (in_map.test(id)) {
+                    LIGHTNING_LOG_ERROR("Entity already in map");
+                    return;
+                }
                 in_map.set(id);
                 if (id >= spare.size()) {
                     spare.resize(id + 1);
@@ -43,8 +46,10 @@ namespace lightning {
             // remove entity from map
             void remove(Entity_t entity) {
                 Entity_ID_t id = GET_ENTITY_ID(entity);
-                if (!in_map.test(id))
-                    throw std::runtime_error("Entity not in map"); // TODO: change to logger
+                if (!in_map.test(id)){
+                    LIGHTNING_LOG_ERROR("Entity not in map");
+                    return;
+                }
                 spare_pair& pare = spare[id];
                 if (GET_ENTITY_VERSION(entity) != pare.second)
                     throw std::runtime_error("Entity to old"); // TODO: change to logger
@@ -64,11 +69,9 @@ namespace lightning {
             // get data from entity
             T& get(Entity_t entity) {
                 Entity_ID_t id = GET_ENTITY_ID(entity);
-                if (!in_map.test(id))
-                    throw std::runtime_error("Entity not in map"); // TODO: change to logger
+                LIGHTNING_ASSERT(in_map.test(id), "Entity not in map");
                 spare_pair& pare = spare[id];
-                if (GET_ENTITY_VERSION(entity) != pare.second)
-                    throw std::runtime_error("Entity to old"); // TODO: change to logger
+                LIGHTNING_ASSERT(GET_ENTITY_VERSION(entity) == pare.second, "Entity to old");
                 return data[pare.first];
             }
             T& operator [](Entity_t entity) {
@@ -77,11 +80,15 @@ namespace lightning {
             // set data from entity
             void set(Entity_t entity, T data) {
                 Entity_ID_t id = GET_ENTITY_ID(entity);
-                if (!in_map.test(id))
-                    throw std::runtime_error("Entity not in map"); // TODO: change to logger
+                if (!in_map.test(id)) {
+                    LIGHTNING_LOG_ERROR("Entity not in map");
+                    return;
+                }
                 spare_pair& pare = spare[id];
-                if (GET_ENTITY_VERSION(entity) != pare.second)
-                    throw std::runtime_error("Entity to old"); // TODO: change to logger
+                if (GET_ENTITY_VERSION(entity) != pare.second) {
+                    LIGHTNING_LOG_ERROR("Entity to old");
+                    return;
+                }
                 data[pare.first] = data;
             }
             // clear map
@@ -101,11 +108,9 @@ namespace lightning {
             // get ind from entity
             size_t get_index(Entity_t entity) {
                 Entity_ID_t id = GET_ENTITY_ID(entity);
-                if (!in_map.test(id))
-                    throw std::runtime_error("Entity not in map"); // TODO: change to logger
+                LIGHTNING_ASSERT(in_map.test(id), "Entity not in map");
                 spare_pair& pare = spare[id];
-                if (GET_ENTITY_VERSION(entity) != pare.second)
-                    throw std::runtime_error("Entity to old"); // TODO: change to logger
+                LIGHTNING_ASSERT(GET_ENTITY_VERSION(entity) == pare.second, "Entity to old");
                 return pare.first;
             }
             // check if map is empty

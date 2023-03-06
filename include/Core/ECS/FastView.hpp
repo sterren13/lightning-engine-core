@@ -6,7 +6,7 @@
 #define CORE_FASTVIEW_HPP
 #include <vector>
 #include <tuple>
-#include "Component_Pool.hpp"
+#include "Core/ECS/Component_Pool.hpp"
 
 namespace lightning {
     namespace ECS {
