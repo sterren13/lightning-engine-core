@@ -16,6 +16,7 @@ namespace lightning {
     class ModuleManager {
     public:
         static ModuleManager& get(); // get singleton instance
+        ~ModuleManager();
         void LoadModule(const char* moduleName, BaseModule* module); // load a module
         void UnloadModule(const char* moduleName); // unload a module by name
         void ActivateModule(const char* moduleName); // activate a module by name

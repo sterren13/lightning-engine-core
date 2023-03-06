@@ -41,4 +41,10 @@ namespace lightning {
         LIGHTNING_ASSERT(m_ModuleMap.find(moduleName) != m_ModuleMap.end(), "Module not loaded");
         return m_Modules[m_ModuleMap[moduleName]]->IsActivated();
     }
+
+    ModuleManager::~ModuleManager() {
+        for (auto& module : m_Modules) {
+            delete module;
+        }
+    }
 } // lightning
