@@ -6,7 +6,7 @@
 
 namespace lightning {
 
-    Application::Application() : eventBus(CreateRef<EventBus>()) {
+    Application::Application() : eventBus(CreateRef<EventBus>()), registry(CreateRef<ECS::registry>()) {
 
     }
 

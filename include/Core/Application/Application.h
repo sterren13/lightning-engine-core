@@ -5,6 +5,7 @@
 #ifndef LIGHTNING_ENGINE_CORE_APPLICATION_H
 #define LIGHTNING_ENGINE_CORE_APPLICATION_H
 #include "Core/Events/EventBus.hpp"
+#include "Core/ECS/registry.h"
 #include "Core/Base.h"
 
 namespace lightning {
@@ -28,6 +29,7 @@ namespace lightning {
         void OnExitEvent();
     private:
         Ref<EventBus> eventBus;
+        Ref<ECS::registry> registry;
         bool paused = false;
         bool wantsToExit = false;
     };
