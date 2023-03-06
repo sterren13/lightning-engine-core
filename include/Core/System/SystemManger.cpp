@@ -3,6 +3,7 @@
 //
 
 #include "SystemManger.h"
+#include "Core/Log/Loger.h"
 
 namespace lightning{
 
@@ -13,24 +14,29 @@ namespace lightning{
     }
 
     void SystemManger::AddSystem(const char *name, BaseSystem *system, bool enabled) {
+        LIGHTNING_ASSERT(!DusSystemExist(name), "System already exist");
         m_systems.push_back({enabled, system});
         m_systemMap.insert({name, m_systems.size() - 1});
     }
 
     void SystemManger::RemoveSystem(const char *name) {
+        LIGHTNING_ASSERT(DusSystemExist(name), "System does not exist");
         m_systems.erase(m_systems.begin() + m_systemMap[name]);
         m_systemMap.erase(name);
     }
 
     void SystemManger::EnableSystem(const char *name) {
+        LIGHTNING_ASSERT(DusSystemExist(name), "System does not exist");
         m_systems[m_systemMap[name]].first = true;
     }
 
     void SystemManger::DisableSystem(const char *name) {
+        LIGHTNING_ASSERT(DusSystemExist(name), "System does not exist");
         m_systems[m_systemMap[name]].first = false;
     }
 
     bool SystemManger::GetSystemState(const char *name) {
+        LIGHTNING_ASSERT(DusSystemExist(name), "System does not exist");
         return m_systems[m_systemMap[name]].first;
     }
 
