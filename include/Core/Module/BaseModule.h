@@ -7,7 +7,15 @@
 #include <string>
 
 namespace lightning {
-
+    /*
+     * BaseModule is the base class for all modules in the engine.*
+     * OnInit is called when the module is initialized.
+     * OnReload is called when the module is reloaded.
+     * OnActivate is called when the module is activated.
+     * OnDeactivate is called when the module is deactivated.
+     * OnShutdown is called when the application is shutting down.
+     * All functions must be overridden by the derived class.
+     */
     class BaseModule {
     public:
         // virtual functions

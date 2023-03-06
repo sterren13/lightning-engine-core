@@ -15,35 +15,35 @@
 namespace lightning {
 #ifdef _WIN32
 
-    // Set the console text color to blue
+    // Set the console text color to blue for Windows
     inline std::ostream &blue(std::ostream &s) {
         HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hStdout, FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         return s;
     }
 
-    // Set the console text color to red
+    // Set the console text color to red for windows
     inline std::ostream &red(std::ostream &s) {
         HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hStdout, FOREGROUND_RED | FOREGROUND_INTENSITY);
         return s;
     }
 
-    // Set the console text color to green
+    // Set the console text color to green for windows
     inline std::ostream &green(std::ostream &s) {
         HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hStdout, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         return s;
     }
 
-    // Set the console text color to yellow
+    // Set the console text color to yellow for windows
     inline std::ostream &yellow(std::ostream &s) {
         HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hStdout, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
         return s;
     }
 
-    // Set the console text color to white
+    // Set the console text color to white for windows
     inline std::ostream &white(std::ostream &s) {
         HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hStdout, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -63,11 +63,11 @@ namespace lightning {
         return i;
     }
 
-#define NC white
-#define RED red
-#define GRN green
-#define YEL yellow
-#define CYN blue
+#define NC white // default white color
+#define RED red // default red color
+#define GRN green // default green color
+#define YEL yellow // default yellow color
+#define CYN blue // default blue color
 #endif
 #endif //LIGHTNING_ENGINE_CORE_WINDOW_LOG_H
 } // lightning

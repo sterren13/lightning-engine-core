@@ -6,6 +6,7 @@
 #define CORE_MODULEREGISTRATIONS_H
 #include "ModuleManager.h"
 
+// This is a macro that is used to register a module with the module manager when the module is statically linked.
 #define DIF_MODULE(Name, Type) namespace lightning::ModuleRegistration {ModeuleRegistration<Type> Name(Name);}
 
 namespace lightning{
