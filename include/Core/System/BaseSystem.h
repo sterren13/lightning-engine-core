@@ -15,18 +15,19 @@ namespace lightning {
     class BaseSystem {
     public:
         ~BaseSystem() = default;
-        virtual void OnInit() = 0;
-        virtual void OnTick() = 0;
+        virtual void OnTick() = 0; // Called every frame
+        void Init(Ref<EventBus> in_eventBus, Ref<ECS::registry> in_registry) {
+            eventBus = std::move(in_eventBus);
+            registry = std::move(in_registry);
+            OnInit();
+        }
+
+    protected:
+        virtual void OnInit() = 0; // Called when the engine is initialized
 
     protected:
         Ref<EventBus> eventBus;
         Ref<ECS::registry> registry;
-
-    private:
-        void Init(Ref<EventBus> in_eventBus, Ref<ECS::registry> in_registry) {
-            eventBus = std::move(in_eventBus);
-            registry = std::move(in_registry);
-        }
     };
 
 } // lightning
