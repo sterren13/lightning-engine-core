@@ -3,3 +3,30 @@
 //
 
 #include "Core/Application/Application.h"
+
+namespace lightning {
+
+    void Application::Run() {
+
+    }
+
+    void Application::OnInit() {
+
+    }
+
+    void Application::OnTick() {
+
+    }
+
+    void Application::OnPause() {
+
+    }
+
+    void Application::OnResume() {
+
+    }
+
+    void Application::OnExit() {
+
+    }
+} // lightning
