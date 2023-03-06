@@ -26,7 +26,7 @@ file(GLOB_RECURSE INCLUDE
 add_library(Core
         ${SRC}
         ${INCLUDE}
-        )
+        include/Core/System/SystemManger.cpp include/Core/System/SystemManger.h include/Core/Events/EventBus.hpp include/Core/Events/EventHandel.hpp include/Core/Events/EventNoDataHandel.hpp)
 
 include_directories(
         include
