@@ -15,6 +15,7 @@ namespace lightning {
     class BaseSystem {
     public:
         ~BaseSystem() = default;
+        virtual const char* GetName() const = 0;
         virtual void OnTick() = 0; // Called every frame
         void Init(Ref<EventBus> in_eventBus, Ref<ECS::registry> in_registry) {
             eventBus = std::move(in_eventBus);

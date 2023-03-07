@@ -2,21 +2,26 @@
 // Created by sterr on 6/03/2023.
 //
 
-#include "SystemManger.h"
+#include "Core/System/SystemManger.h"
+
+#include <algorithm>
 #include "Core/Log/Loger.h"
 
 namespace lightning{
 
     SystemManger::~SystemManger() {
         for (auto& system : m_systems) {
-            delete system.second;
+            delete system.system;
         }
     }
 
-    void SystemManger::AddSystem(const char *name, BaseSystem *system, bool enabled) {
-        LIGHTNING_ASSERT(!DusSystemExist(name), "System already exist");
-        m_systems.push_back({enabled, system});
-        m_systemMap.insert({name, m_systems.size() - 1});
+    void SystemManger::AddSystem(BaseSystem *system, size_t priority, bool enabled) {
+        LIGHTNING_ASSERT(!DusSystemExist(system->GetName()), "System already exist");
+        m_systems.push_back({priority,enabled, system});
+        m_systemMap.insert({system->GetName(), m_systems.size() - 1});
+        std::sort(m_systems.begin(), m_systems.end(), [](const SystemCharateristics& a, const SystemCharateristics& b) {
+            return a.priority < b.priority;
+        });
     }
 
     void SystemManger::RemoveSystem(const char *name) {
@@ -27,17 +32,17 @@ namespace lightning{
 
     void SystemManger::EnableSystem(const char *name) {
         LIGHTNING_ASSERT(DusSystemExist(name), "System does not exist");
-        m_systems[m_systemMap[name]].first = true;
+        m_systems[m_systemMap[name]].enabled = true;
     }
 
     void SystemManger::DisableSystem(const char *name) {
         LIGHTNING_ASSERT(DusSystemExist(name), "System does not exist");
-        m_systems[m_systemMap[name]].first = false;
+        m_systems[m_systemMap[name]].enabled = false;
     }
 
     bool SystemManger::GetSystemState(const char *name) {
         LIGHTNING_ASSERT(DusSystemExist(name), "System does not exist");
-        return m_systems[m_systemMap[name]].first;
+        return m_systems[m_systemMap[name]].enabled;
     }
 
     bool SystemManger::DusSystemExist(const char *name) {
@@ -46,14 +51,14 @@ namespace lightning{
 
     void SystemManger::OnInit(Ref<EventBus> in_eventBus, Ref<ECS::registry> in_registry) {
         for (auto& system : m_systems) {
-            system.second->Init(in_eventBus, in_registry);
+            system.system->Init(in_eventBus, in_registry);
         }
     }
 
     void SystemManger::OnTick() {
         for (auto& system : m_systems) {
-            if (system.first) {
-                system.second->OnTick();
+            if (system.enabled) {
+                system.system->OnTick();
             }
         }
     }

@@ -13,7 +13,7 @@ namespace lightning {
     class SystemManger {
     public:
         ~SystemManger();
-        void AddSystem(const char* name,BaseSystem* system, bool enabled = false);
+        void AddSystem(BaseSystem* system, size_t priority, bool enabled = false);
         void RemoveSystem(const char* name);
         void EnableSystem(const char* name);
         void DisableSystem(const char* name);
@@ -23,7 +23,12 @@ namespace lightning {
         void OnInit(Ref<EventBus> in_eventBus, Ref<ECS::registry> in_registry);
         void OnTick();
     private:
-        std::vector <std::pair<bool, BaseSystem*>> m_systems;
+        struct SystemCharateristics {
+            size_t priority;
+            bool enabled;
+            BaseSystem* system;
+        };
+        std::vector<SystemCharateristics> m_systems;
         std::unordered_map<const char*, size_t> m_systemMap;
     };
 } // lightning
