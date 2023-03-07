@@ -26,7 +26,7 @@ file(GLOB_RECURSE INCLUDE
 add_library(Core
         ${SRC}
         ${INCLUDE}
-        src/Core/System/SystemManger.cpp include/Core/System/SystemManger.h include/Core/Events/EventBus.hpp include/Core/Events/EventHandel.hpp include/Core/Events/EventNoDataHandel.hpp)
+        src/Core/System/SystemManger.cpp include/Core/System/SystemManger.h include/Core/Events/EventBus.hpp include/Core/Events/EventHandel.hpp include/Core/Events/EventNoDataHandel.hpp src/Platform/OpenGL/OpenGL_Window.cpp include/Platform/OpenGL/OpenGL_Window.h src/Platform/Linux/Filesystem_Linux.cpp src/Platform/OSX/Metal_Window.cpp include/Platform/OSX/Metal_Window.h src/Platform/OSX/Filesystem_OSX.cpp src/Platform/Windows/Filesystem_Windows.cpp)
 
 include_directories(
         include
