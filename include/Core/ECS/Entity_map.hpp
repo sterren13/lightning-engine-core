@@ -8,8 +8,8 @@
 #include <bitset>
 #include <stdexcept>
 
-#include "Core\Types.h"
-#include "Core\Log\Loger.h"
+#include "Core/Types.h"
+#include "Core/Log/Loger.h"
 
 namespace lightning {
     namespace ECS {
@@ -22,8 +22,8 @@ namespace lightning {
         public:
             typedef std::pair<uint32_t, Entity_Version_t> spare_pair;
             typedef std::vector<spare_pair> spare_vector;
-            typedef std::vector<T> data_vector;
-            typedef std::vector<T>::iterator data_iterator;
+            typedef typename std::vector<T> data_vector;
+            typedef typename std::vector<T>::iterator data_iterator;
         public:
             Entity_map(){
                 data.reserve(100);
@@ -129,7 +129,7 @@ namespace lightning {
         private:
             data_vector data; // vector of data from entitys
             spare_vector spare; // pare of index and entity version
-            std::bitset<MATH_ERREXCEPT> in_map; // bitset of entitys in map
+            std::bitset<MAX_ENTITIES> in_map; // bitset of entitys in map
         };
     } // ECS
 } // lightning

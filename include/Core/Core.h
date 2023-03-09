@@ -6,7 +6,6 @@
 #define CORE_CORE_H
 // Application
 #include "Application/Application.h"
-#include "Application/ApplicationState.h"
 
 // ECS
 #include "ECS/registry.h"

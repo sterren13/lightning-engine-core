@@ -8,8 +8,9 @@
 #include <cassert>
 #include "Platform/Linux/Linux_Log.h"
 #include "Platform/OSX/OSX_Log.h"
-#include "Platform/windows/Window_Log.h"
+#include "Platform/Windows/Window_Log.h"
 
+#define DEBUG
 
 namespace lightning {
 

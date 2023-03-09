@@ -5,6 +5,9 @@
 #ifndef LIGHTNING_ENGINE_CORE_APPLICATION_H
 #define LIGHTNING_ENGINE_CORE_APPLICATION_H
 #include "Core/Events/EventBus.hpp"
+#include "Core/Window/Window.h"
+#include "Core/System/SystemManger.h"
+#include "Core/Module/ModuleManager.h"
 #include "Core/ECS/registry.h"
 #include "Core/Base.h"
 
@@ -14,7 +17,7 @@ namespace lightning {
      * It is responsible for the main loop and the initialization of the engine.
      */
     class Application {
-    private:
+    public:
         Application();
         void Run(); // main loop of the engine
         void OnInit(); // initialize the engine
@@ -28,8 +31,11 @@ namespace lightning {
         void OnResumeEvent();
         void OnExitEvent();
     private:
+        Ref<Window> window;
         Ref<EventBus> eventBus;
         Ref<ECS::registry> registry;
+        Ref<SystemManger> systemManager;
+        Ref<ModuleManager> moduleManager;
         bool paused = false;
         bool wantsToExit = false;
     };

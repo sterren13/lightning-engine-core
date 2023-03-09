@@ -2,7 +2,7 @@
 // Created by sterr on 6/03/2023.
 //
 
-#include "Core/Timer/Timer.h"
+#include "Core/Time/Timer.h"
 
 lightning::Timer::Timer() {
     Reset();

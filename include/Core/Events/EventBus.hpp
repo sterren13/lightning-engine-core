@@ -53,6 +53,7 @@ namespace lightning {
 
         // Push an event without data
         void PushEvent(const char* name){
+            LIGHTNING_LOG_EVENT("Pushing event: ", name);
             m_EventNoDataHandles[m_EventNoDataMap[name]]->CallEvent();
         }
 
@@ -64,7 +65,8 @@ namespace lightning {
 
         // Register a callback to be called when an event without data is pushed
         size_t RegisterListener(const char* name, std::function<void()> callback){
-            return m_EventNoDataHandles[m_EventNoDataMap[name]]->RegisterListener(std::move(callback));
+            LIGHTNING_LOG_EVENT("Registering event: ", name);
+            return m_EventNoDataHandles[m_EventNoDataMap[name]]->RegisterListener(callback);
         }
 
         // Unregister a callback by id

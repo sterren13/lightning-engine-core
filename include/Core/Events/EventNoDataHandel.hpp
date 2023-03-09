@@ -31,7 +31,7 @@ namespace lightning {
 
         // Register a callback to be called when RunCallback is called
         size_t RegisterListener(std::function<void()> callback) {
-            m_callbacks.push_back(std::move(callback));
+            m_callbacks.push_back(callback);
             return m_callbacks.size() - 1;
         }
 
