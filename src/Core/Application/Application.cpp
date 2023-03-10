@@ -21,7 +21,7 @@ namespace lightning {
     void Application::OnInit() {
         // register events and listeners
         eventBus->RegisterEvent("Exit");
-        eventBus->RegisterListener("Exit", ENGINE_BIND_EVENT_FN(Application::OnExit));
+        eventBus->RegisterListener("Exit", ENGINE_BIND_EVENT_FN(Application::OnExitEvent));
         eventBus->RegisterEvent("Pause");
         eventBus->RegisterListener("Pause", ENGINE_BIND_EVENT_FN(Application::OnPauseEvent));
         eventBus->RegisterEvent("Resume");
@@ -57,16 +57,18 @@ namespace lightning {
 
     void Application::OnPauseEvent() {
         paused = true;
+        LIGHTNING_LOG_EVENT("Pausing...");
         OnPause();
     }
 
     void Application::OnResumeEvent() {
         paused = false;
+        LIGHTNING_LOG_EVENT("Resuming...");
         OnResume();
     }
 
     void Application::OnExitEvent() {
-        LIGHTNING_LOG_INFO("Exiting...");
+        LIGHTNING_LOG_EVENT("Exiting...");
         wantsToExit = true;
     }
 } // lightning

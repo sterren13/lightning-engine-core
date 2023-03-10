@@ -5,6 +5,7 @@
 #ifndef CORE_EVENTBUS_HPP
 #define CORE_EVENTBUS_HPP
 #include <unordered_map>
+#include <string>
 #include "EventHandel.hpp"
 #include "Core/Base.h"
 #include "Core/Log/Loger.h"
@@ -27,8 +28,8 @@ namespace lightning {
 
         // Register an event without data
         void RegisterEvent(const char* name){
-            m_EventNoDataMap.insert({name, m_EventNoDataHandles.size()});
-            m_EventNoDataHandles.push_back(CreateRef<EventNoDataHandel>());
+            m_EventNoDataMap.insert({std::string(name), m_EventNoDataHandles.size()});
+            m_EventNoDataHandles.push_back(CreateRef<EventNoDataHandel>(std::string(name)));
         }
 
         // Remove an event type
@@ -42,7 +43,7 @@ namespace lightning {
         // Remove an event without data
         void RemoveEvent(const char* name){
             m_EventNoDataHandles.erase(m_EventNoDataHandles.begin() + m_EventNoDataMap[name]);
-            m_EventNoDataMap.erase(name);
+            m_EventNoDataMap.erase(std::string(name));
         }
 
         // Push an event
@@ -53,8 +54,7 @@ namespace lightning {
 
         // Push an event without data
         void PushEvent(const char* name){
-            LIGHTNING_LOG_EVENT("Pushing event: ", name);
-            m_EventNoDataHandles[m_EventNoDataMap[name]]->CallEvent();
+            m_EventNoDataHandles[m_EventNoDataMap[std::string(name)]]->CallEvent();
         }
 
         // Register a callback to be called when an event is pushed
@@ -65,8 +65,7 @@ namespace lightning {
 
         // Register a callback to be called when an event without data is pushed
         size_t RegisterListener(const char* name, std::function<void()> callback){
-            LIGHTNING_LOG_EVENT("Registering event: ", name);
-            return m_EventNoDataHandles[m_EventNoDataMap[name]]->RegisterListener(callback);
+            return m_EventNoDataHandles[m_EventNoDataMap[std::string(name)]]->RegisterListener(callback);
         }
 
         // Unregister a callback by id
@@ -77,7 +76,7 @@ namespace lightning {
 
         // Unregister a callback by id
         void RemoveListener(const char* name, size_t id2){
-            m_EventNoDataHandles[m_EventNoDataMap[name]]->UnregisterListener(id2);
+            m_EventNoDataHandles[m_EventNoDataMap[std::string(name)]]->UnregisterListener(id2);
         }
 
         // Run all callbacks for all events
@@ -102,7 +101,7 @@ namespace lightning {
         std::vector<Ref<BaseEventHandel>> m_eventHandles; // list of event handles
         std::unordered_map<EventID , size_t> HandelMap; // map of event types to handel index
         std::vector<Ref<EventNoDataHandel>> m_EventNoDataHandles; // list of free handel indexes
-        std::unordered_map<const char* , size_t> m_EventNoDataMap; // map of event types to handel index
+        std::unordered_map<std::string, size_t> m_EventNoDataMap; // map of event types to handel index
     };
 }
 #endif //CORE_EVENTBUS_HPP

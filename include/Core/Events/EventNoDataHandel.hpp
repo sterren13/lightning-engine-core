@@ -14,6 +14,8 @@ namespace lightning {
      */
     class EventNoDataHandel {
     public:
+        EventNoDataHandel(std::string name) : m_name(name) {}
+
         // call Event
         void CallEvent(){
             EventIsCalled = true;
@@ -43,6 +45,7 @@ namespace lightning {
     private:
         std::vector<std::function<void()>> m_callbacks; // list of callbacks
         bool EventIsCalled = false; // is event called
+        std::string m_name; // name of event
     };
 }
 #endif //CORE_EVENTNODATAHANDEL_HPP

@@ -33,7 +33,7 @@ namespace lightning {
                 std::cout << RED << "[Error] ";
                 break;
             case LogType::Event:
-                std::cout << CYN << "[Event ]";
+                std::cout << CYN << "[Event] ";
                 break;
             default:
                 std::cout << RED << "[No Type] ";
@@ -55,7 +55,7 @@ namespace lightning {
                 std::cout << RED << "[Error] ";
                 break;
             case LogType::Event:
-                std::cout << CYN << "[Event ]";
+                std::cout << CYN << "[Event] ";
                 break;
             default:
                 std::cout << RED << "[No Type] ";
