@@ -46,6 +46,8 @@ namespace lightning{
     }
 
     bool SystemManger::DusSystemExist(const char *name) {
+        if (m_systemMap.empty())
+            return false;
         return m_systemMap.find(name) != m_systemMap.end();
     }
 

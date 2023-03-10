@@ -23,8 +23,14 @@
 #include "Time/Timer.h"
 
 // IO
+#include "IO/KeyCode.h"
+#include "IO/MouseCode.h"
 
 // types
 #include "Types.h"
+
+// System
+#include "System/BaseSystem.h"
+#include "System/SystemManger.h"
 
 #endif //CORE_CORE_H

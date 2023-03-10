@@ -37,7 +37,7 @@ namespace lightning {
         virtual void SetFullScreen(bool fullscreen) = 0;
         virtual void SetVSync(bool vsync) = 0;
 
-        static Ref<Window> Create(const char* title, size_t width, size_t height, GraphicsAPI api = GraphicsAPI::OpenGL);
+        static Ref<Window> Create(const char* title, size_t width, size_t height, bool fullscreen, bool vsync, GraphicsAPI api = GraphicsAPI::OpenGL);
     };
 
 } // lightning

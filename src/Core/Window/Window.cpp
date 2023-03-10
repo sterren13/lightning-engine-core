@@ -6,7 +6,9 @@
 #include "../../Platform/OpenGL/OpenGL_Window.h"
 
 namespace lightning {
-    Ref<Window> Window::Create(const char *title, size_t width, size_t height, GraphicsAPI api) {
-        return CreateRef<Platform::OpenGL_Window>(title, width, height);
+    Ref<Window> Window::Create(const char* title, size_t width, size_t height, bool fullscreen, bool vsync, GraphicsAPI api) {
+        if (api == GraphicsAPI::OpenGL)
+            return CreateRef<Platform::OpenGL_Window>(title, width, height, fullscreen, vsync);
+        return nullptr;
     }
 } // lightning

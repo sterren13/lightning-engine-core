@@ -6,14 +6,23 @@
 
 namespace lightning {
 
-    Application::Application() : eventBus(CreateRef<EventBus>()), registry(CreateRef<ECS::registry>()) {
+    Application::Application(ApplicationConfig config) :
+            eventBus(CreateRef<EventBus>()),
+            registry(CreateRef<ECS::registry>()),
+            m_config(config),
+            systemManager(CreateRef<SystemManger>()){
     }
 
     void Application::Run() {
         OnInit();
+        FixedTickTimer.Reset();
         while (!wantsToExit) {
             eventBus->ProcessEvents();
             OnTick();
+            if (FixedTickTimer.GetCurrentTimeMicro() >= m_config.TickTime) {
+                FixedTickTimer.Reset();
+                eventBus->PushEvent("FixedTick");
+            }
         }
         OnExit();
     }
@@ -26,13 +35,13 @@ namespace lightning {
         eventBus->RegisterListener("Pause", ENGINE_BIND_EVENT_FN(Application::OnPauseEvent));
         eventBus->RegisterEvent("Resume");
         eventBus->RegisterListener("Resume", ENGINE_BIND_EVENT_FN(Application::OnResumeEvent));
+        eventBus->RegisterEvent("FixedTick");
 
         // create window
-        window = Window::Create("Lightning Engine", 1280, 720);
+        window = Window::Create(m_config.name.c_str(), m_config.width, m_config.height, m_config.fullscreen, m_config.vsync, m_config.graphicsAPI);
         window->SetEventCallbacks(*eventBus);
 
-        // create system manager and load modules and systems
-        systemManager = CreateRef<SystemManger>();
+        // load modules
         for (auto& system : ModuleManager::get().Each()){
             system->OnInit();
         }
@@ -41,6 +50,7 @@ namespace lightning {
 
     void Application::OnTick() {
         window->Update();
+        systemManager->OnTick();
     }
 
     void Application::OnPause() {
@@ -52,7 +62,9 @@ namespace lightning {
     }
 
     void Application::OnExit() {
-
+        for (auto& system : ModuleManager::get().Each()){
+            system->OnShutdown();
+        }
     }
 
     void Application::OnPauseEvent() {
@@ -68,7 +80,7 @@ namespace lightning {
     }
 
     void Application::OnExitEvent() {
-        LIGHTNING_LOG_EVENT("Exiting...");
         wantsToExit = true;
+        LIGHTNING_LOG_EVENT("Exiting...");
     }
 } // lightning
