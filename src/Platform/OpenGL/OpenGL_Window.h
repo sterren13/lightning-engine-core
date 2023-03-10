@@ -31,7 +31,6 @@ namespace lightning {
             void SetVSync(bool vsync) override;
 
         private:
-            void CreateWindow(const char* title, size_t width, size_t height);
 
             static void GLFW_ErrorCallback(int error, const char* description);
             static void GLFW_ResizedCallback(GLFWwindow* window, int width, int height);
@@ -42,6 +41,7 @@ namespace lightning {
             static void GLFW_CharCallback(GLFWwindow* window, unsigned int codepoint);
             static void GLFW_JoystickCallback(int joy, int event);
 
+            void _CreateWindow(const char* title, uint32_t width, uint32_t height);
         private:
             EventBus* m_EventBus = nullptr;
             GLFWwindow* m_Window;

@@ -29,7 +29,7 @@ namespace lightning {
         // Register an event without data
         void RegisterEvent(const char* name){
             m_EventNoDataMap.insert({std::string(name), m_EventNoDataHandles.size()});
-            m_EventNoDataHandles.push_back(CreateRef<EventNoDataHandel>(std::string(name)));
+            m_EventNoDataHandles.push_back(CreateRef<EventNoDataHandel>());
         }
 
         // Remove an event type

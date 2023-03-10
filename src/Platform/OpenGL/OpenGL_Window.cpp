@@ -9,7 +9,7 @@ namespace lightning {
     namespace Platform {
         OpenGL_Window::OpenGL_Window(const char *title, uint32_t width, uint32_t height, bool fullscreen, bool vsync) :
             m_FullScreen(fullscreen), m_VSync(vsync) {
-            CreateWindow(title, width, height);
+            _CreateWindow(title, width, height);
         }
 
         OpenGL_Window::~OpenGL_Window() {
@@ -98,11 +98,8 @@ namespace lightning {
             }
         }
 
-        void OpenGL_Window::CreateWindow(const char *title, size_t width, size_t height) {
-            if (!glfwInit()) {
-                LIGHTNING_LOG_ERROR("glfw init");
-                return;
-            }
+        void OpenGL_Window::_CreateWindow(const char *title, size_t width, size_t height) {
+            LIGHTNING_ASSERT(glfwInit(), "Window already created");
 
 
             // set opengl settings
@@ -115,11 +112,7 @@ namespace lightning {
             m_Window = glfwCreateWindow(width, height, title, nullptr, nullptr);
 
             // check if window is created
-            if (!m_Window) {
-                LIGHTNING_LOG_ERROR("window not valid");
-                glfwTerminate();
-                return;
-            }
+            LIGHTNING_ASSERT(m_Window, "window not valid");
 
             // make window context current
             glfwMakeContextCurrent(m_Window);

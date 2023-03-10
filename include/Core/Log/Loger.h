@@ -95,7 +95,7 @@ namespace lightning {
 #endif
 
 #ifdef DEBUG
-#define LIGHTNING_ASSERT(check, ...) {LIGHTNING_LOG_ERROR_DEBUG(__VA_ARGS__); assert(check);}
+#define LIGHTNING_ASSERT(check, ...) {if(!(check)){LIGHTNING_LOG_ERROR_DEBUG(__VA_ARGS__);} assert(check);}
 #else
 #define LIGHTNING_ASSERT(check, ...) {assert(check);}
 #endif
