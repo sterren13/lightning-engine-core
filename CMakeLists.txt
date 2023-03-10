@@ -10,6 +10,8 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL  "GLFW lib only")
 set(GLFW_BUILD_INSTALL OFF CACHE BOOL  "GLFW lib only")
 add_subdirectory(lib/glfw)
 add_subdirectory(lib/glm)
+add_subdirectory(lib/glew/build/cmake)
+add_subdirectory(lib/stb_image)
 
 file(GLOB_RECURSE SRC
         src/*.h
@@ -36,4 +38,9 @@ target_include_directories(Core PUBLIC
         include
         )
 
-target_link_libraries(Core PUBLIC glfw glm)
+target_link_libraries(Core PUBLIC
+        glfw
+        glm
+        glew_s
+        stb_image
+        )
