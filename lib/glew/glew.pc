@@ -1,6 +1,6 @@
-prefix=C:/Program Files (x86)/Core
+prefix=C:/Program Files (x86)/LocalTest
 exec_prefix=${prefix}
-libdir=C:/Program Files (x86)/Core/lib
+libdir=C:/Program Files (x86)/LocalTest/lib
 includedir=${prefix}/include
 
 Name: glew
