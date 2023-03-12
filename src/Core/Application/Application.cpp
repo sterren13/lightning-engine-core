@@ -7,7 +7,7 @@
 namespace lightning {
 
     Application::Application(ApplicationConfig config) :
-            eventBus(CreateRef<EventBus>()),
+            eventManager(CreateRef<EventManager>()),
             registry(CreateRef<ECS::registry>()),
             m_config(config),
             systemManager(CreateRef<SystemManger>()){
@@ -17,11 +17,11 @@ namespace lightning {
         OnInit();
         FixedTickTimer.Reset();
         while (!wantsToExit) {
-            eventBus->ProcessEvents();
+            eventManager->ProcessEvents();
             OnTick();
             if (FixedTickTimer.GetCurrentTimeMicro() >= m_config.TickTime) {
                 FixedTickTimer.Reset();
-                eventBus->PushEvent("FixedTick");
+                eventManager->PushEvent("FixedTick");
             }
         }
         OnExit();
@@ -29,23 +29,23 @@ namespace lightning {
 
     void Application::OnInit() {
         // register events and listeners
-        eventBus->RegisterEvent("Exit");
-        eventBus->RegisterListener("Exit", ENGINE_BIND_EVENT_FN(Application::OnExitEvent));
-        eventBus->RegisterEvent("Pause");
-        eventBus->RegisterListener("Pause", ENGINE_BIND_EVENT_FN(Application::OnPauseEvent));
-        eventBus->RegisterEvent("Resume");
-        eventBus->RegisterListener("Resume", ENGINE_BIND_EVENT_FN(Application::OnResumeEvent));
-        eventBus->RegisterEvent("FixedTick");
+        eventManager->RegisterEvent("Exit");
+        eventManager->RegisterListener("Exit", ENGINE_BIND_EVENT_FN(Application::OnExitEvent));
+        eventManager->RegisterEvent("Pause");
+        eventManager->RegisterListener("Pause", ENGINE_BIND_EVENT_FN(Application::OnPauseEvent));
+        eventManager->RegisterEvent("Resume");
+        eventManager->RegisterListener("Resume", ENGINE_BIND_EVENT_FN(Application::OnResumeEvent));
+        eventManager->RegisterEvent("FixedTick");
 
         // create window
         window = Window::Create(m_config.name.c_str(), m_config.width, m_config.height, m_config.fullscreen, m_config.vsync, m_config.graphicsAPI);
-        window->SetEventCallbacks(*eventBus);
+        window->SetEventCallbacks(*eventManager);
 
         // load modules
         for (auto& system : ModuleManager::get().Each()){
             system->OnInit();
         }
-        systemManager->OnInit(eventBus, registry);
+        systemManager->OnInit(eventManager, registry);
     }
 
     void Application::OnTick() {

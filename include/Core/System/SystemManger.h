@@ -20,7 +20,7 @@ namespace lightning {
         bool GetSystemState(const char* name);
         bool DusSystemExist(const char* name);
 
-        void OnInit(Ref<EventBus> in_eventBus, Ref<ECS::registry> in_registry);
+        void OnInit(Ref<EventManager> in_eventManager, Ref<ECS::registry> in_registry);
         void OnTick();
     private:
         struct SystemCharateristics {

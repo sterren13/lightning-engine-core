@@ -17,7 +17,7 @@ namespace lightning {
 
             void Update() override;
             void SetTitle(const char* title) override;
-            void SetEventCallbacks(EventBus& eventBus) override;
+            void SetEventCallbacks(EventManager& eventManager) override;
 
             // window properties
             const size_t GetWidth() const override;
@@ -43,7 +43,7 @@ namespace lightning {
 
             void _CreateWindow(const char* title, uint32_t width, uint32_t height);
         private:
-            EventBus* m_EventBus = nullptr;
+            EventManager* m_EventManager = nullptr;
             GLFWwindow* m_Window;
             bool m_FullScreen, m_VSync;
         };

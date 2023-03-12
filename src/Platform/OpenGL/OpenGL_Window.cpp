@@ -22,38 +22,38 @@ namespace lightning {
             glfwSwapBuffers(m_Window);
             glfwPollEvents();
             if(glfwWindowShouldClose(m_Window))
-                m_EventBus->PushEvent("Exit");
+                m_EventManager->PushEvent("Exit");
         }
 
         void OpenGL_Window::SetTitle(const char *title) {
             glfwSetWindowTitle(m_Window, title);
         }
 
-        void OpenGL_Window::SetEventCallbacks(EventBus& eventBus) {
-            glfwSetWindowUserPointer(m_Window, &eventBus);
+        void OpenGL_Window::SetEventCallbacks(EventManager& eventManager) {
+            glfwSetWindowUserPointer(m_Window, &eventManager);
 
             // keyboard
-            eventBus.RegisterEvent<KeyPressedEvent>();
-            eventBus.RegisterEvent<KeyRepeatEvent>();
-            eventBus.RegisterEvent<KeyReleasedEvent>();
+            eventManager.RegisterEvent<KeyPressedEvent>();
+            eventManager.RegisterEvent<KeyRepeatEvent>();
+            eventManager.RegisterEvent<KeyReleasedEvent>();
             glfwSetKeyCallback(m_Window, GLFW_KeyCallback);
 
             // mouse
-            //eventBus.RegisterEvent<MouseButtonPressedEvent>();
-            //eventBus.RegisterEvent<MouseButtonRepeatEvent>();
-            //eventBus.RegisterEvent<MouseButtonReleasedEvent>();
+            //eventManager.RegisterEvent<MouseButtonPressedEvent>();
+            //eventManager.RegisterEvent<MouseButtonRepeatEvent>();
+            //eventManager.RegisterEvent<MouseButtonReleasedEvent>();
             //glfwSetMouseButtonCallback(m_Window, GLFW_MouseButtonCallback);
 //
-            //eventBus.RegisterEvent<MouseMovedEvent>();
+            //eventManager.RegisterEvent<MouseMovedEvent>();
             //glfwSetCursorPosCallback(m_Window, GLFW_CursorPositionCallback);
 //
-            //eventBus.RegisterEvent<MouseScrolledEvent>();
+            //eventManager.RegisterEvent<MouseScrolledEvent>();
             //glfwSetScrollCallback(m_Window, GLFW_ScrollCallback);
 
             // window
-            eventBus.RegisterEvent<WindowResizedEvent>();
+            eventManager.RegisterEvent<WindowResizedEvent>();
             glfwSetWindowSizeCallback(m_Window, GLFW_ResizedCallback);
-            m_EventBus = &eventBus;
+            m_EventManager = &eventManager;
         }
 
         const size_t OpenGL_Window::GetWidth() const {
@@ -138,25 +138,25 @@ namespace lightning {
 
         void OpenGL_Window::GLFW_ResizedCallback(GLFWwindow *window, int width, int height) {
             void* data = glfwGetWindowUserPointer(window);
-            EventBus* eventBus = static_cast<EventBus*>(data);
-            eventBus->PushEvent<WindowResizedEvent>({width, height});
+            EventManager* eventManager = static_cast<EventManager*>(data);
+            eventManager->PushEvent<WindowResizedEvent>({width, height});
         }
 
         void OpenGL_Window::GLFW_KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
             void* data = glfwGetWindowUserPointer(window);
-            EventBus* eventBus = static_cast<EventBus*>(data);
+            EventManager* eventManager = static_cast<EventManager*>(data);
             Keyboard::Code code = key;
             switch (action) {
                 case GLFW_PRESS: {
-                    eventBus->PushEvent<KeyPressedEvent>({code});
+                    eventManager->PushEvent<KeyPressedEvent>({code});
                     break;
                 }
                 case GLFW_RELEASE: {
-                    eventBus->PushEvent<KeyReleasedEvent>({code});
+                    eventManager->PushEvent<KeyReleasedEvent>({code});
                     break;
                 }
                 case GLFW_REPEAT: {
-                    eventBus->PushEvent<KeyPressedEvent>({code});
+                    eventManager->PushEvent<KeyPressedEvent>({code});
                     break;
                 }
             }
@@ -164,17 +164,17 @@ namespace lightning {
 
         void OpenGL_Window::GLFW_MouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
             void* data = glfwGetWindowUserPointer(window);
-            EventBus* eventBus = static_cast<EventBus*>(data);
+            EventManager* eventManager = static_cast<EventManager*>(data);
             Mouse::Code code = button;
             switch (action) {
                 case GLFW_RELEASE: // The mouse button was released.
-                    eventBus->PushEvent<MouseButtonReleasedEvent>({code});
+                    eventManager->PushEvent<MouseButtonReleasedEvent>({code});
                     break;
                 case GLFW_PRESS: // The mouse button was pressed.
-                    eventBus->PushEvent<MouseButtonPressedEvent>({code});
+                    eventManager->PushEvent<MouseButtonPressedEvent>({code});
                     break;
                 case GLFW_REPEAT: // The mouse button was held down until it repeated.
-                    eventBus->PushEvent<MouseButtonReleasedEvent>({code});
+                    eventManager->PushEvent<MouseButtonReleasedEvent>({code});
                     break;
                 default:
                     break;
@@ -184,14 +184,14 @@ namespace lightning {
 
         void OpenGL_Window::GLFW_CursorPositionCallback(GLFWwindow *window, double xpos, double ypos) {
             void* data = glfwGetWindowUserPointer(window);
-            EventBus* eventBus = static_cast<EventBus*>(data);
-            eventBus->PushEvent<MouseMovedEvent>({xpos, ypos});
+            EventManager* eventManager = static_cast<EventManager*>(data);
+            eventManager->PushEvent<MouseMovedEvent>({xpos, ypos});
         }
 
         void OpenGL_Window::GLFW_ScrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
             void* data = glfwGetWindowUserPointer(window);
-            EventBus* eventBus = static_cast<EventBus*>(data);
-            eventBus->PushEvent<MouseScrolledEvent>({xoffset, yoffset});
+            EventManager* eventManager = static_cast<EventManager*>(data);
+            eventManager->PushEvent<MouseScrolledEvent>({xoffset, yoffset});
         }
 
         void OpenGL_Window::GLFW_CharCallback(GLFWwindow *window, unsigned int codepoint) {

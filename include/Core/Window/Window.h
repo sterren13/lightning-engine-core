@@ -8,7 +8,7 @@
 #include <cstddef>
 #include "Core/Base.h"
 #include "Core/Window/Window_Events.h"
-#include "Core/Events/EventBus.hpp"
+#include "Core/Events/EventManager.hpp"
 
 namespace lightning {
 
@@ -24,7 +24,7 @@ namespace lightning {
 
         virtual void Update()= 0;
         virtual void SetTitle(const char* title) = 0;
-        virtual void SetEventCallbacks(EventBus& eventBus) = 0;
+        virtual void SetEventCallbacks(EventManager& eventManager) = 0;
 
         // window properties
         virtual const size_t GetWidth() const = 0;

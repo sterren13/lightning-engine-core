@@ -6,7 +6,7 @@
 #define CORE_BASESYSTEM_H
 #include <utility>
 
-#include "Core/Events/EventBus.hpp"
+#include "Core/Events/EventManager.hpp"
 #include "Core/ECS/registry.h"
 #include "Core/Base.h"
 
@@ -17,8 +17,8 @@ namespace lightning {
         ~BaseSystem() = default;
         virtual const char* GetName() const = 0;
         virtual void OnTick() = 0; // Called every frame
-        void Init(Ref<EventBus> in_eventBus, Ref<ECS::registry> in_registry) {
-            eventBus = std::move(in_eventBus);
+        void Init(Ref<EventManager> in_eventManager, Ref<ECS::registry> in_registry) {
+            eventManager = std::move(in_eventManager);
             registry = std::move(in_registry);
             OnInit();
         }
@@ -27,7 +27,7 @@ namespace lightning {
         virtual void OnInit() = 0; // Called when the engine is initialized
 
     protected:
-        Ref<EventBus> eventBus;
+        Ref<EventManager> eventManager;
         Ref<ECS::registry> registry;
     };
 

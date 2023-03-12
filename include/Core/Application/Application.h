@@ -4,7 +4,7 @@
 
 #ifndef LIGHTNING_ENGINE_CORE_APPLICATION_H
 #define LIGHTNING_ENGINE_CORE_APPLICATION_H
-#include "Core/Events/EventBus.hpp"
+#include "Core/Events/EventManager.hpp"
 #include "Core/Window/Window.h"
 #include "Core/System/SystemManger.h"
 #include "Core/Module/ModuleManager.h"
@@ -46,13 +46,13 @@ namespace lightning {
 
         // getters
         Window& GetWindow() { return *window; }
-        EventBus& GetEventBus() { return *eventBus; }
+        EventManager& GetEventManager() { return *eventManager; }
         ECS::registry& GetRegistry() { return *registry; }
         SystemManger& GetSystemManager() { return *systemManager; }
         ModuleManager& GetModuleManager() { return *moduleManager; }
     private:
         Ref<Window> window;
-        Ref<EventBus> eventBus;
+        Ref<EventManager> eventManager;
         Ref<ECS::registry> registry;
         Ref<SystemManger> systemManager;
         Ref<ModuleManager> moduleManager;

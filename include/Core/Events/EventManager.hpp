@@ -2,8 +2,8 @@
 // Created by sterr on 6/03/2023.
 //
 
-#ifndef CORE_EVENTBUS_HPP
-#define CORE_EVENTBUS_HPP
+#ifndef CORE_EVENTMANAGER_HPP
+#define CORE_EVENTMANAGER_HPP
 #include <unordered_map>
 #include <string>
 #include "EventHandel.hpp"
@@ -15,7 +15,7 @@ namespace lightning {
     // bind a function from a class instance
     #define ENGINE_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) \
                                     { return this->fn(std::forward<decltype(args)>(args)...); }
-    class EventBus {
+    class EventManager {
     public:
         typedef size_t EventID;
     public:
@@ -104,4 +104,4 @@ namespace lightning {
         std::unordered_map<std::string, size_t> m_EventNoDataMap; // map of event types to handel index
     };
 }
-#endif //CORE_EVENTBUS_HPP
+#endif //CORE_EVENTMANAGER_HPP

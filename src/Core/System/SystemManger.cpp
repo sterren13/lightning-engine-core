@@ -51,9 +51,9 @@ namespace lightning{
         return m_systemMap.find(name) != m_systemMap.end();
     }
 
-    void SystemManger::OnInit(Ref<EventBus> in_eventBus, Ref<ECS::registry> in_registry) {
+    void SystemManger::OnInit(Ref<EventManager> in_eventManager, Ref<ECS::registry> in_registry) {
         for (auto& system : m_systems) {
-            system.system->Init(in_eventBus, in_registry);
+            system.system->Init(in_eventManager, in_registry);
         }
     }
 
