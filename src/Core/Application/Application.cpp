@@ -28,7 +28,7 @@ namespace lightning {
     }
 
     void Application::OnInit() {
-        // register events and listeners
+        // register events and m_listeners
         eventManager->RegisterEvent("Exit");
         eventManager->RegisterListener("Exit", ENGINE_BIND_EVENT_FN(Application::OnExitEvent));
         eventManager->RegisterEvent("Pause");
