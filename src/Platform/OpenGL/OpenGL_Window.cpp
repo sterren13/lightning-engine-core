@@ -98,7 +98,7 @@ namespace lightning {
             }
         }
 
-        void OpenGL_Window::_CreateWindow(const char *title, size_t width, size_t height) {
+        void OpenGL_Window::_CreateWindow(const char* title, uint32_t width, uint32_t height) {
             LIGHTNING_ASSERT(glfwInit(), "Window already created");
 
 
