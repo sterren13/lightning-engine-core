@@ -6,7 +6,7 @@
 #define CORE_EBUS_HPP
 #include "EBusTraits.hpp"
 
-template <class Interface>
+template <class Interface, class BusTraits = Interface>
 class EBus {
 public:
     static void Connect();
