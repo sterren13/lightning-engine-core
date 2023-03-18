@@ -33,4 +33,10 @@
 #include "System/BaseSystem.h"
 #include "System/SystemManger.h"
 
+// Events
+#include "Events/EventManager.hpp"
+#include "Events/EBusTraits.hpp"
+#include "Events/EBus.hpp"
+#include "Events/Interface.hpp"
+
 #endif //CORE_CORE_H
