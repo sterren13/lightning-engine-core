@@ -7,6 +7,12 @@
 #include "EBusTraits.hpp"
 #include "EBusImplementation.hpp"
 
+/*
+ * The EBus is a base class for all EBus implementations.
+ * TODO: add que to EBus whit template parameter
+ * TODO: add mutex to EBus whit template parameter
+ * TODO: add Event to call when a handler is connected or disconnected whit template parameter
+ */
 namespace lightning {
     template<class Interface, class BusTraits = Interface>
     class EBus :

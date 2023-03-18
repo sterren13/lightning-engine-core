@@ -36,6 +36,8 @@ namespace lightning {
 
 /*
  * EBus Implementation for EBusHandlerPolicy::Single and EBusAddressPolicy::Single
+ * Max one handler per EBus
+ * Max one address per EBus
  */
     template<class Interface, class Traits>
     class EBusImplementation<Interface, Traits, EBusHandlerPolicy::Single, EBusAddressPolicy::Single> {
@@ -72,9 +74,12 @@ namespace lightning {
 
 /*
  * EBus Implementation for EBusHandlerPolicy::Multiple and EBusAddressPolicy::Single
+ * Multiple handlers per EBus
+ * Max one address per EBus
  */
     template<class Interface, class Traits>
     class EBusImplementation<Interface, Traits, EBusHandlerPolicy::Multiple, EBusAddressPolicy::Single> {
+    public:
         template<typename M, typename... Args>
         static void Broadcast(void(M::*method)(Args...), Args &&... args) {
             for (auto handler:  GetHandlers()) {
@@ -82,10 +87,12 @@ namespace lightning {
             }
         }
 
-        template<typename R, typename M, typename... Args>
-        // TODO EBus Implementation for EBusHandlerPolicy::Multiple and EBusAddressPolicy::Single chek if BroadcastResult can be deleted
-        static void BroadcastResult(R &ReturnVal, R(M::*method)(Args...), Args &&... args) {
-            LIGHTNING_LOG_ERROR("EBusImplementation::BroadcastResult() not implemented for this EBus");
+        template<typename Lambda, typename R, typename M, typename... Args>
+        static void BroadcastResult(R(M::*method)(Args...), Lambda lambda, Args &&... args) {
+            for (auto handler:  GetHandlers()) {
+                R val = (handler->*method)(args...);
+                lambda(val);
+            }
         }
 
         static void Connect(Interface *handler) {
@@ -110,9 +117,13 @@ namespace lightning {
 
 /*
  * EBus Implementation for EBusHandlerPolicy::Single and EBusAddressPolicy::ById
+ * Multiple handlers per EBus which are identified by an ID
+ * Max one handler per address
+ * TODO: Implement Ebus implementation for EBusHandlerPolicy::Single and EBusAddressPolicy::ById
  */
     template<class Interface, class Traits>
     class EBusImplementation<Interface, Traits, EBusHandlerPolicy::Single, EBusAddressPolicy::ById> {
+    public:
         template<typename M, typename... Args>
         static void Broadcast(void(M::*method)(Args...), Args &&... args) {
 
@@ -122,13 +133,23 @@ namespace lightning {
         static void BroadcastResult(R &ReturnVal, R(M::*method)(Args...), Args &&... args) {
 
         }
+        static void Connect(Interface *handler) {
+
+        }
+        static void Disconnect(Interface *handler) {
+
+        }
     };
 
 /*
  * EBus Implementation for EBusHandlerPolicy::Multiple and EBusAddressPolicy::ById
+ * Multiple handlers per EBus which are identified by an ID
+ * Multiple handlers per address
+ * TODO Implement EBus Implementation for EBusHandlerPolicy::Multiple and EBusAddressPolicy::ById
  */
     template<class Interface, class Traits>
     class EBusImplementation<Interface, Traits, EBusHandlerPolicy::Multiple, EBusAddressPolicy::ById> {
+    public:
         template<typename M, typename... Args>
         static void Broadcast(void(M::*method)(Args...), Args &&... args) {
 
@@ -136,15 +157,26 @@ namespace lightning {
 
         template<typename R, typename M, typename... Args>
         static void BroadcastResult(R &ReturnVal, R(M::*method)(Args...), Args &&... args) {
+
+        }
+        static void Connect(Interface *handler) {
+
+        }
+        static void Disconnect(Interface *handler) {
 
         }
     };
 
 /*
  * EBus Implementation for EBusHandlerPolicy::Multiple and EBusAddressPolicy::ById
+ * Multiple handlers per EBus which are identified by an ID
+ * Max one handler per address
+ * Ordered by ID
+ * TODO Implement EBus Implementation for EBusHandlerPolicy::Single and EBusAddressPolicy::byIdAndOrder
  */
     template<class Interface, class Traits>
     class EBusImplementation<Interface, Traits, EBusHandlerPolicy::Single, EBusAddressPolicy::ByIdAndOrder> {
+    public:
         template<typename M, typename... Args>
         static void Broadcast(void(M::*method)(Args...), Args &&... args) {
 
@@ -152,15 +184,26 @@ namespace lightning {
 
         template<typename R, typename M, typename... Args>
         static void BroadcastResult(R &ReturnVal, R(M::*method)(Args...), Args &&... args) {
+
+        }
+        static void Connect(Interface *handler) {
+
+        }
+        static void Disconnect(Interface *handler) {
 
         }
     };
 
 /*
  * EBus Implementation for EBusHandlerPolicy::Single and EBusAddressPolicy::ByIdAndOrder
+ * Multiple handlers per EBus which are identified by an ID
+ * Multiple handlers per address
+ * Ordered by ID
+ * TODO Implement EBus Implementation for EBusHandlerPolicy::Multiple and EBusAddressPolicy::byIdAndOrder
  */
     template<class Interface, class Traits>
     class EBusImplementation<Interface, Traits, EBusHandlerPolicy::Multiple, EBusAddressPolicy::ByIdAndOrder> {
+    public:
         template<typename M, typename... Args>
         static void Broadcast(void(M::*method)(Args...), Args &&... args) {
 
@@ -168,6 +211,12 @@ namespace lightning {
 
         template<typename R, typename M, typename... Args>
         static void BroadcastResult(R &ReturnVal, R(M::*method)(Args...), Args &&... args) {
+
+        }
+        static void Connect(Interface *handler) {
+
+        }
+        static void Disconnect(Interface *handler) {
 
         }
     };
